@@ -1,7 +1,12 @@
-from django.shortcuts import render
 from django.http import HttpResponse
+from django.shortcuts import redirect
 
-# Create your views here.
+from users.models import Users
 
-def register(request):
-    return HttpResponse('Ola')
+
+def home(request):
+    if request.session.get("user"):
+        user = Users.objects.get(id=request.session["user"])
+        return HttpResponse(f"Ola {user.name}")
+    else:
+        return redirect("/auth/login/?status=2")

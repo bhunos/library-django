@@ -5,10 +5,61 @@
 {% block 'content' %}
 
     <main class="container">
+    <br/>
+
+    {% if status == '0' %}
+                <div class="alert alert-success" role="alert">
+                    <p>Cadastro realizado com sucesso.</p>
+                </div>
+            {% endif %}
+
+            {% if status == '1' %}
+                <div class="alert alert-danger" role="alert">
+                    <p>Nome e email nao podem estar vazios.</p>
+                </div>
+            {% endif %}
+
+            {% if status == '2' %}
+                <div class="alert alert-danger" role="alert">
+                    <p>Sua senha deve ter mais de 8 ou mais catacteres.</p>
+                </div>
+            {% endif %}
+
+            {% if status == '3' %}
+                <div class="alert alert-danger" role="alert">
+                    <p>Usuario já exite no sistema.</p>
+                </div>
+            {% endif %}
+
+            {% if status == '4' %}
+                <div class="alert alert-danger" role="alert">
+                    <p>Erro interno no sistema.</p>
+                </div>
+            {% endif %}
         <div class="row">
+
             <div class="col-md-3"></div>
 
-            <div class="col-md">teste</div>
+            <div class="col-md pt-3">
+                <h1 class="text-center">Cadastre-se</h1>
+                <hr/>
+
+                <form method="POST" action="{% url 'validate_registration' %}"> {% csrf_token %}
+                    <label class="pt-3">Nome</label>
+                    <input name="name" class="form-control" type="text" placeholder="Digite seu nome">
+
+                    <label class="pt-3">Email</label>
+                    <input name="email" class="form-control" type="email" placeholder="Digite seu melhor email">
+
+                    <label class="pt-3">Senha</label>
+                    <input name="password" class="form-control" type="password" placeholder="Digite sua senha">
+
+                    <div style="width: 100%; display: flex; flex-direction: column" class="pt-4">
+                        <input class="btn btn-info btn-lg w-full" type="submit" value="Enviar">
+                        <a href="{% url 'login' %}"class="btn btn-warning btn-lg mt-4">Login</a>
+                    </div>
+                </form>
+            </div>
 
             <div class="col-md-3"></div>
         </div>

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block 'title' %}Login{% endblock %}
+
+{% block 'content' %}
+    <main class="container">
+        <br/>
+
+        {% if status == '1' %}
+            <div class="alert alert-danger" role="alert">
+                <p>Email ou senha invalidos.</p>
+            </div>
+        {% endif %}
+
+    {% if status == '2' %}
+            <div class="alert alert-danger" role="alert">
+                <p>Faça login antes de acessar o sistema.</p>
+            </div>
+        {% endif %}
+
+        <div class="row">
+
+            <div class="col-md-3"></div>
+
+            <div class="col-md pt-3">
+                <h1 class="text-center">Entrar</h1>
+                <hr/>
+
+                <form method="POST" action="{% url 'validate_login' %}"> {% csrf_token %}
+
+                    <label class="pt-3">Email</label>
+                    <input name="email" class="form-control" type="email" placeholder="Digite seu email">
+
+                    <label class="pt-3">Senha</label>
+                    <input name="password" class="form-control" type="password" placeholder="Digite sua senha">
+
+                    <div style="width: 100%; display: flex; flex-direction: column" class="pt-4">
+                        <input class="btn btn-info btn-lg w-full" type="submit" value="Entrar">
+                        <a href="{% url 'register' %}" class="btn btn-warning btn-lg mt-4">Cadastro</a>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-md-3"></div>
+        </div>
+    </main>
+{% endblock %}
