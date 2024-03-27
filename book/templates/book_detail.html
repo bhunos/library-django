@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block 'title' %}Livro{% endblock %}
+
+{% block 'content' %}
+    <main class="container">
+         <div class="row">
+
+            <div class="col-md-3"></div>
+
+            <div class="col-md pt-3">
+                <h1 class="text-center">Livro</h1>
+                <hr/>
+
+                <form method="PUT"> {% csrf_token %}
+
+                    <label class="pt-3">Nome*</label>
+                    <input name="name" class="form-control" type="text" placeholder="Digite o nome do livro" value="{{ book.name }}">
+
+                    <label class="pt-3">Autor*</label>
+                    <input name="author" class="form-control" type="text" placeholder="Digite o author" value="{{ book.author }}">
+
+                    <label class="pt-3">Co-Autor</label>
+                    <input name="co_author" class="form-control" type="text" placeholder="Digite o author Co-Autor" value="{{ book.co_author }}">
+
+                    <div style="width: 100%; display: flex; flex-direction: column" class="pt-4">
+                        <input class="btn btn-info btn-lg w-full" type="submit" value="Salvar">
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-md-3"></div>
+        </div>
+
+    </main>
+
+
+{% endblock %}

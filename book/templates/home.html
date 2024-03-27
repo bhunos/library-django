@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block 'title' %}Livros{% endblock %}
+
+{% block 'content' %}
+    <main class="container">
+        <div class="row">
+            {% for book in books %}
+
+                <div class="col-md mt-5">
+                    <div class="card" style="width: 18rem;">
+                        {% if book.image %}
+                            <img src="..." class="card-img-top" alt="...">
+                        {% endif %}
+
+                        <div class="card-body">
+                            <h5 class="card-title">{{ book.name }}</h5>
+                            <p class="card-text" style="color: #888888">{{ book.description }}</p>
+                            {% if book.author %}
+                                <p class="card-text" style="font-size: 12px; color: #888888">
+                                    Author: {{ book.author }}</p>
+                            {% endif %}
+                            {% if book.co_author %}
+                                <p class="card-text" style="font-size: 12px; color: #888888">
+                                    Co-Autor: {{ book.co_author }}</p>
+                            {% endif %}
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item card-text"
+                                style="font-size: 12px; color: #888888">{{ book.date_register }}</li>
+                            {% if book.borrowed %}
+                                <li class="list-group-item card-text" style="font-size: 12px; color: #888888">
+                                    Emprestado
+                                </li>
+                            {% else %}
+                                <li class="list-group-item card-text" style="font-size: 12px; color: #888888">
+                                    Disponivel
+                                </li>
+                            {% endif %}
+                            <li class="list-group-item card-text" style="font-size: 12px; color: #888888">
+                                Categoria: {{ book.categoryId }}</li>
+                        </ul>
+                        <a class="card-body btn-primary" style="text-align: center" href="{% url 'book_detail' book.id %}">
+                                <p style="color: white; margin: 0; font-weight: bold">Ver</p>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+    </main>
+
+
+{% endblock %}
