@@ -1,17 +1,20 @@
 from hashlib import sha256
 
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from .models import Users
 
 
 def login(request):
+    if request.session.get("user"):
+        return redirect("/book/home")
     status = request.GET.get("status")
     return render(request, "login.html", {"status": status})
 
 
 def register(request):
+    if request.session.get("user"):
+        return redirect("/book/home")
     status = request.GET.get("status")
     return render(request, "register.html", {"status": status})
 
@@ -36,8 +39,10 @@ def validate_registration(request):
         password = sha256(password.encode()).hexdigest()
         users = Users(name=name, email=email, password=password)
         users.save()
-        return redirect("/auth/register/?status=0")
-    except:
+
+        return redirect("/auth/login/?status=0")
+    except Exception as e:
+        print("Erro ao criar usuario: {}".format(e))
         return redirect("/auth/register/?status=4")
 
 
@@ -52,8 +57,6 @@ def validate_login(request):
     elif len(user) > 0:
         request.session["user"] = user[0].id
         return redirect("/book/home")
-
-    return HttpResponse(f"{email}@{password}")
 
 
 def logout(request):

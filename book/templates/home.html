@@ -3,7 +3,7 @@
 {% block 'title' %}Livros{% endblock %}
 
 {% block 'content' %}
-    <main class="container">
+    <section class="container">
         <div class="row">
             {% for book in books %}
 
@@ -38,7 +38,7 @@
                                 </li>
                             {% endif %}
                             <li class="list-group-item card-text" style="font-size: 12px; color: #888888">
-                                Categoria: {{ book.categoryId }}</li>
+                                Categoria: {{ book.category }}</li>
                         </ul>
                         <a class="card-body btn-primary" style="text-align: center" href="{% url 'book_detail' book.id %}">
                                 <p style="color: white; margin: 0; font-weight: bold">Ver</p>
@@ -49,7 +49,7 @@
 
         </div>
 
-    </main>
+    </section>
 
 
 {% endblock %}

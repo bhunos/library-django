@@ -11,11 +11,140 @@
     <title>{% block 'title' %} {% endblock %}</title>
 </head>
 <body>
-<nav class="navbar navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">Library</a>
-</nav>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="height: 80px">
+        <a class="navbar-brand" href="{% url 'home' %}">Library</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent"
+                aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-{% block 'content' %} {% endblock %}
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                {% if session %}
+                    <li class="nav-item active">
+                        <button type="button" class="btn btn-primary mr-2" data-toggle="modal"
+                                data-target="#exampleModal"
+                                data-whatever="@mdo">Cadastrar Livro
+                        </button>
+                    </li>
+                    <li>
+                        <a href="{% url 'logout' %}" class="btn btn-danger" style="width: 150px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#FFF"
+                                 class="bi bi-box-arrow-left mr-2"
+                                 viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                      d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z"/>
+                                <path fill-rule="evenodd"
+                                      d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z"/>
+                            </svg>
+                            sair
+                        </a>
+                    </li>
+                {% endif %}
+
+            </ul>
+        </div>
+    </nav>
+
+    <div class="collapse navbar-collapse" id="navbarToggleExternalContent"
+         style="padding-top: 80px; position: absolute; z-index: 999; width: 100%;}">
+        <div class="bg-dark p-4">
+            <ul class="navbar-nav" style="align-items: center">
+                {% if session %}
+                    <li>
+                        <button type="button" class="btn btn-primary mb-3" data-toggle="modal"
+                                data-target="#exampleModal"
+                                data-whatever="@mdo">Cadastrar Livro
+                        </button>
+                    </li>
+                    <li>
+                        <a href="{% url 'logout' %}" class="btn btn-danger" style="width: 136px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#FFF"
+                                 class="bi bi-box-arrow-left mr-2"
+                                 viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                      d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z"/>
+                                <path fill-rule="evenodd"
+                                      d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z"/>
+                            </svg>
+                            sair
+                        </a>
+                    </li>
+                {% endif %}
+
+            </ul>
+        </div>
+    </div>
+</header>
+
+<main style="padding-top: 80px">
+    {% block 'content' %} {% endblock %}
+
+    {% if session %}
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Cadastrar livro</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form action="{% url 'create_book' %}" method="POST" >{% csrf_token %}
+                            <div class="form-group">
+                                <label for="name" class="col-form-label">Nome*:</label>
+                                <input required type="text" class="form-control" id="name" name="name">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="author" class="col-form-label">Autor*:</label>
+                                <input required type="text" class="form-control" id="author" name="author">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="co_author" class="col-form-label">Co Autor:</label>
+                                <input type="text" class="form-control" id="co_author" name="co_author">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="date_register" class="col-form-label">Data do Registro*:</label>
+                                <input required type="date" class="form-control" id="date_register"
+                                       name="date_register">
+                            </div>
+
+                            <div class="form-group">
+                                <div class="custom-control custom-switch pt-3">
+                                    <input name="borrowed" type="checkbox" class="custom-control-input"
+                                           id="customSwitch1">
+                                    <label class="custom-control-label" for="customSwitch1">Emprestado</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="category" class="pt-3">Categoria</label>
+                                <select required name="category" class=" custom-select" id="category">
+                                    {% for row in category_book %}
+                                        <option value="{{ row.id }}">{{ row }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <input class="btn btn-success btn-lg" style="width: 100%;" type="submit" value="Salvar">
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+</main>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>

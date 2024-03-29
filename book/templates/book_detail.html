@@ -3,8 +3,8 @@
 {% block 'title' %}Livro{% endblock %}
 
 {% block 'content' %}
-    <main class="container">
-         <div class="row">
+    <section class="container pb-5">
+        <div class="row">
 
             <div class="col-md-3"></div>
 
@@ -12,19 +12,55 @@
                 <h1 class="text-center">Livro</h1>
                 <hr/>
 
-                <form method="PUT"> {% csrf_token %}
+                <form method="PUT" class="pb-4"> {% csrf_token %}
 
-                    <label class="pt-3">Nome*</label>
-                    <input name="name" class="form-control" type="text" placeholder="Digite o nome do livro" value="{{ book.name }}">
+                    <label for="name" class="pt-3">Nome*</label>
+                    <input required name="name" id="name" class="form-control" type="text" placeholder="Digite o nome do livro"
+                           value="{{ book.name }}">
 
-                    <label class="pt-3">Autor*</label>
-                    <input name="author" class="form-control" type="text" placeholder="Digite o author" value="{{ book.author }}">
+                    <label for="author" class="pt-3">Autor*</label>
+                    <input required id="author" name="author" class="form-control" type="text" placeholder="Digite o author"
+                           value="{{ book.author }}">
 
-                    <label class="pt-3">Co-Autor</label>
-                    <input name="co_author" class="form-control" type="text" placeholder="Digite o author Co-Autor" value="{{ book.co_author }}">
+                    <label for="co_author" class="pt-3">Co-Autor</label>
+                    {% if book.co_author %}
+                        <input id="co_author" name="co_author" class="form-control" type="text" placeholder="Digite o author Co-Autor"
+                               value="{{ book.co_author }}">
+                    {% else %}
+                        <input id="co_author" name="co_author" class="form-control" type="text" placeholder="Digite o author Co-Autor">
+                    {% endif %}
 
-                    <div style="width: 100%; display: flex; flex-direction: column" class="pt-4">
-                        <input class="btn btn-info btn-lg w-full" type="submit" value="Salvar">
+                    <label for="date_register" class="pt-3">Data de registro*</label>
+                    <input required name="date_register" id="date_register" class="form-control" type="date" placeholder="Digite a data do regstro"
+                           value="{{ book.date_register }}">
+
+                    {% if book.borrowed %}
+                        <div class="custom-control custom-switch pt-3">
+                            <input name="borrowed" type="checkbox" class="custom-control-input" id="customSwitch1"
+                                   checked>
+                            <label class="custom-control-label" for="customSwitch1">Emprestado</label>
+                        </div>
+                    {% else %}
+                        <div class="custom-control custom-switch pt-3">
+                            <input name="borrowed" type="checkbox" class="custom-control-input" id="customSwitch1">
+                            <label class="custom-control-label" for="customSwitch1">Emprestado</label>
+                        </div>
+                    {% endif %}
+
+                    <label for="category" class="pt-3">Categoria</label>
+                    <select id="category" name="category" class="custom-select">
+                        {% for row in category_book %}
+                            {% if book.category.id == row.id %}
+                                <option selected >{{ row }}</option>
+                            {% else %}
+                                <option>{{ row }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+
+                    <div style="width: 100%;" class="pt-4">
+                        <input class="btn btn-info btn-lg" style="width: 48%;" type="submit" value="Salvar">
+                        <a href="{% url 'home' %}" class="btn btn-danger btn-lg" style="width: 48%;">Voltar</a>
                     </div>
                 </form>
             </div>
@@ -32,7 +68,44 @@
             <div class="col-md-3"></div>
         </div>
 
-    </main>
+        <h3 class="text-center mt-4 mb-4">Historico de emprestimo</h3>
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Data Emprestimo</th>
+                <th scope="col">Data devolução</th>
+                <th scope="col">Tempo</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for row in loan %}
+                <tr>
+                    <th scope="row">{{ row.borrowed_name }}</th>
+                    <td style="font-weight: normal">{{ row.loan_date }}</td>
+                    <td style="font-weight: normal">{{ row.return_date }}</td>
+                    <td style="font-weight: normal; display: flex">
+                        {% if row.date_difference != 0 %}
+                            {{ row.date_difference }}
+                        {% endif %}
+                        <p class="ml-1">
+                            {% if row.date_difference == 1 %}
+                                dia
+                            {% elif row.date_difference > 1 %}
+                                dias
+                            {% elif  row.date_difference == 0 %}
+                                mesmo dia
+                            {% endif %}
+                        </p>
+                    </td>
+
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </section>
 
 
 {% endblock %}

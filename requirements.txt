@@ -1,0 +1,5 @@
+asgiref==3.8.1
+Django==5.0.3
+emoji==2.10.1
+pygame==2.5.2
+sqlparse==0.4.4

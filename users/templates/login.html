@@ -3,8 +3,14 @@
 {% block 'title' %}Login{% endblock %}
 
 {% block 'content' %}
-    <main class="container">
+    <section class="container">
         <br/>
+
+        {% if status == '0' %}
+            <div class="alert alert-success" role="alert">
+                <p>Cadastro realizado com sucesso.</p>
+            </div>
+        {% endif %}
 
         {% if status == '1' %}
             <div class="alert alert-danger" role="alert">
@@ -12,7 +18,7 @@
             </div>
         {% endif %}
 
-    {% if status == '2' %}
+        {% if status == '2' %}
             <div class="alert alert-danger" role="alert">
                 <p>Faça login antes de acessar o sistema.</p>
             </div>
@@ -43,5 +49,5 @@
 
             <div class="col-md-3"></div>
         </div>
-    </main>
+    </section>
 {% endblock %}
